@@ -1,0 +1,38 @@
+creacion tabla departamento
+USE [empresa]
+CREATE TABLE [dbo].[departamento](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[descripcion] [varchar](50) NOT NULL,
+ CONSTRAINT [pk_departamentos] PRIMARY KEY CLUSTERED 
+);
+
+creacion tabla empleados
+
+CREATE TABLE [dbo].[empleados](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[nombre] [varchar](50) NOT NULL,
+	[fecha_ingreso] [date] NOT NULL,
+	[turno] [varchar](20) NOT NULL,
+	[estado] [varchar](20) NOT NULL,
+	[departamento] [int] NULL,
+ CONSTRAINT [pk_empleados] PRIMARY KEY CLUSTERED 
+(
+
+ALTER TABLE [dbo].[empleados]  WITH CHECK ADD FOREIGN KEY([departamento])
+REFERENCES [dbo].[departamento] ([id])
+GO
+
+1.utilizando inner o left o right join consultar cuantos empleados existen
+USE empresa;
+SELECT empleados.*, departamento.descripcion
+FROM empleados
+INNER JOIN departamento ON empleados.departamento = departamento.id;
+
+2.crear un reporte con la informacion de clientes y departamento
+USE empresa;
+SELECT empleados.nombre, empleados.fecha_ingreso as comenzo, empleados.turno AS tipo_turno, departamento.descripcion as departamento
+FROM empleados
+INNER JOIN departamento ON empleados.departamento = departamento.id;
+
+
+
